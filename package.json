@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "karma start"
+    "test": "karma start",
+    "start": "nodemon --exec babel-node index.js --delay 2",
+    "build": "babel src/js -w -d dist/js"
+
   },
   "repository": {
     "type": "git",
@@ -20,10 +23,17 @@
   },
   "homepage": "https://github.com/jtwjs/todoList#readme",
   "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
     "jasmine": "^3.6.3",
     "jasmine-core": "^3.6.0",
     "karma": "^5.2.3",
     "karma-chrome-launcher": "^3.1.0",
-    "karma-jasmine": "^4.0.1"
+    "karma-jasmine": "^4.0.1",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "@babel/node": "^7.12.6"
   }
 }
