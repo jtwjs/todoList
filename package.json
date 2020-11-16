@@ -10,7 +10,6 @@
     "test": "karma start",
     "start": "nodemon --exec babel-node index.js --delay 2",
     "build": "babel src/js -w -d dist/js"
-
   },
   "repository": {
     "type": "git",
@@ -26,6 +25,8 @@
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
     "jasmine": "^3.6.3",
     "jasmine-core": "^3.6.0",
     "karma": "^5.2.3",
