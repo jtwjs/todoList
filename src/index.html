@@ -12,46 +12,57 @@
 </head>
 <body class="before-prepare">
     <section class="prepare">
+        <h2 class="sr-only">
+            write name
+        </h2>
         <div class="prepare-wrap">
-            <label for="input--name">
-                What your name?
+            <label for="input--name" class="label">
+                Hello, what your name?
             </label>
             <input type="text" id="input--name" class="input"/>
+            <button class="button continue-btn">
+                continue
+            </button>
         </div>
     </section>
-    <header id="header">
-        <div class="weaterInfo">
-            <div class="weatherInfo__weather">
-                <span class="weather__icon">
-                </span>
-                <span class="temperature">
-                    17
-                </span>
+    <section class="container">
+        <header id="header">
+            <div class="weaterInfo">
+                <div class="weatherInfo__weather">
+                    <span class="weather__icon">
+                    </span>
+                    <span class="temperature">
+                        17
+                    </span>
+                </div>
+                <div class="weatherInfo__local">
+                    <span class="local__name">Seongnam</span>
+                </div>
             </div>
-            <div class="weatherInfo__local">
-                <span class="local__name">Seongnam</span>
-            </div>
-        </div>
-    </header>
-    <main id="main">
-        <section class="todo-list">
-            <div class="clock">
-                <span class="current_time">17:43</span>
-            </div>
-            <div class="greeting">
-                <span class="greeting-by-time">
-                    Good Morning
-                </span>
-            </div>
-            <div class="todo-input-wrap">
-                <label for="todo-input">
-                    What are you going to do today?
-                </label>
-                <input type="text" id="todo-input" class="input"/>
-            </div>
-        </section>
-    </main>
-    <footer id="footer">
-    </footer>
+        </header>
+        <main id="main">
+            <section class="todo-list">
+                <h2 class="sr-only">
+                    todo list
+                </h2>
+                <div class="clock">
+                    <span class="current_time">17:43</span>
+                </div>
+                <div class="greeting">
+                    <span class="greeting-by-time">
+                        Good Morning
+                    </span>
+                </div>
+                <div class="todo-input-wrap">
+                    <label for="input--todo" class="label label-todo">
+                        What are you going to do today?
+                    </label>
+                    <input type="text" id="input--todo" class="input"/>
+                </div>
+            </section>
+        </main>
+        <footer id="footer">
+        </footer>
+    </section>
 </body>
 </html>
