@@ -1,8 +1,6 @@
-"use strict";
+'use strict';
 
-var arr = [1, 2, 3];
+var _prepare = require("./prepare.js");
 
-for (var _i = 0, _arr = arr; _i < _arr.length; _i++) {
-  var num = _arr[_i];
-  console.log(num);
-}
+var USER_LS = "currentUser";
+console.log(_prepare.prepare);
