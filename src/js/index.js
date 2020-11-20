@@ -1,5 +1,6 @@
-const arr = [1,2,3];
+'use strict';
 
-for(const num of arr) {
-    console.log(num);
-}
+import {prepare} from "./prepare.js"
+
+    const USER_LS = "currentUser";
+    console.log(prepare);
