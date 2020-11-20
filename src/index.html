@@ -9,14 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/index.css">
-    <script src="./js/index.js" defer> </script>
+    <script type="module" src="../src/js/index.js" defer> </script>
 </head>
 <body class="before-prepare">
     <section class="prepare">
         <h2 class="sr-only">
             write name
         </h2>
-        <div class="prepare-wrap">
+        <form class="prepare-form form">
             <label for="input--name" class="label">
                 Hello, what your name?
             </label>
@@ -24,7 +24,8 @@
             <button class="button continue-btn">
                 continue
             </button>
-        </div>
+        </form>
+
     </section>
     <section class="container">
         <header id="header">
