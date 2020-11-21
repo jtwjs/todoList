@@ -14,17 +14,20 @@
 <body class="before-question">
     <section class="question">
         <h2 class="sr-only">
-            write name
+            question
         </h2>
-        <form class="question-form form">
-            <label for="input--name" class="label">
+        <div class="question-content">
+            <label for="input--question" class="label--question">
                 Hello, what your name?
             </label>
-            <input type="text" id="input--name" class="input"/>
+            <input type="text" id="input--question" class="input" data-question="name"/>
+            <div class="question-tip">
+                Space cannot be registered by name. Please try again.
+            </div>
             <button class="button continue-btn">
                 continue
             </button>
-        </form>
+        </div>
 
     </section>
     <section class="container">
