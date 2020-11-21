@@ -38,7 +38,7 @@ body {
   visibility: hidden;
 }
 
-.prepare {
+.question {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +48,7 @@ body {
   opacity: 0;
 }
 
-.prepare-form {
+.question-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,11 +88,11 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.before-prepare .container {
+.before-question .container {
   display: none;
 }
 
-.before-prepare .prepare {
+.before-question .question {
   opacity: 1;
 }
 
