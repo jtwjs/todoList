@@ -31,6 +31,7 @@
             clock: document.querySelector('.current-time'),
             greeting: document.querySelector('.greeting-by-time'),
             inputTodo: document.querySelector('#input--todo'),
+            memoContainer: document.querySelector('.todo-list__list'),
         }
                         
                     }];
@@ -167,18 +168,37 @@
     }
 
     /*Todo */
+    function deleteToDo(){
+
+    }
+
     function saveToDos() {
         localStorage.setItem(TODO_LS, JSON.stringify(toDos));
     }
 
     function paintToDo(text) {
+        const li = document.createElement('li');
+        const delBtn = document.createElement('button');
+        const span = document.createElement('span');
         const newId = toDos.length + 1;
+        delBtn.addEventListener('click', deleteToDo);
+        span.innerText = text;
+        li.appendChild(span);
+        li.appendChild(delBtn);
+        li.id = newId;
+        memoStyleCycle();
+        sceneInfo[1].objs.memoContainer.appendChild(li);
         const toDoObj = {
             id: newId,
             text: text,
         }
         toDos.push(toDoObj);
         saveToDos();
+
+        function memoStyleCycle() {
+            const randomNum = Math.floor(Math.random() * 11 + 1);
+            li.style.backgroundImage = `url(./assets/sticker/memo_${randomNum}.png)`;
+        }
     }
 
     function todoSubmit(){
