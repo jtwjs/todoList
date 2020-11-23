@@ -26,6 +26,8 @@
             weatherIcon: document.querySelector('.weather__icon'),
             temperature: document.querySelector('.temperature'),
             local: document.querySelector('.local__name'),
+            clock: document.querySelector('.current-time'),
+            greeting: document.querySelector('.greeting-by-time'),
         }
                         
                     }];
@@ -62,6 +64,7 @@
                 if(this.value){
                     registerName(this.value);
                     this.nextElementSibling.classList.remove('active');
+                    greeting();
                     nextQuestion();
                     }
                 else {
@@ -90,7 +93,7 @@
             .then(function (json) {
                 console.log(json);
                 const icon = json.weather[0].icon;
-                const temperature = Math.floor(json.main.temp);
+                const temperature = Math.round(json.main.temp);
                 const place = json.name;
                 const index = place.indexOf("-");
                 console.log(sceneInfo[1].objs.weatherIcon.style.background)
@@ -129,6 +132,38 @@
         }
     }
 
+    /*Clock */
+    function getCurrentTime() {
+        const date = new Date();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        sceneInfo[1].objs.clock.innerText = 
+            `${hour > 10 ? hour:'0'+hour}:${minute > 10 ? minute:'0'+minute}`;
+    }
+    /*Greeting */
+    function greeting() {
+        const hour = new Date().getHours();
+        let byTimeStr = '';
+        if(hour <= 12) {
+            byTimeStr = 'morning';
+            greetingByTime(byTimeStr);
+        } else if(hour < 13) {
+            byTimeStr = 'afternoon';
+            greetingByTime(byTimeStr);
+        } else if(hour <= 18) {
+            byTimeStr = 'evening';
+            greetingByTime(byTimeStr);
+        } else if(hour <= 23) {
+            byTimeStr = 'night';
+            greetingByTime(byTimeStr);
+        }
+
+        function greetingByTime(str) {
+            sceneInfo[1].objs.greeting.innerText = 
+                `Good ${str}, ${sceneInfo[0].values.userInfo.name}`;
+        }
+    }
+
     sceneInfo[0].objs.inputQuestion.addEventListener('keydown', function(event){
         if(event.keyCode === 13) {
             questionHandler.call(this);
@@ -148,6 +183,10 @@
 
     window.addEventListener('DOMContentLoaded', () => {
         const userInfo = JSON.parse(localStorage.getItem(USER_LS));
+        getCurrentTime();      
+        setInterval(getCurrentTime, 1000);
+        loadCoords();
+        greeting();
         if(userInfo) {
             sceneInfo[0].values.userInfo = userInfo;
             if(!userInfo.age){
@@ -156,8 +195,8 @@
             }
             document.body.removeChild(sceneInfo[0].objs.container);
             document.querySelector('body').classList.remove('before-question'); 
-            loadCoords();      
         }
+        
     })
 
 })();
