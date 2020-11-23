@@ -1,7 +1,9 @@
 'use strict';
 
-// import {prepare} from "./prepare.js"
+// import {question} from "./question.js"
 (() => {
+    const API_KEY = "83853936bbc3546d9a97b185b48b6449";
+    const COORDS = "coords";
     const USER_LS = "currentUser";
     const sceneInfo = [{
         objs: {
@@ -18,9 +20,17 @@
                 age: '',
             },
         }
-    }];
+    },
+                    {
+        objs:{
+            weatherIcon: document.querySelector('.weather__icon'),
+            temperature: document.querySelector('.temperature'),
+            local: document.querySelector('.local__name'),
+        }
+                        
+                    }];
 
-
+    /*Question */
     function registerName(name) {
         const userInfo = sceneInfo[0].values.userInfo;
          userInfo.name = name;
@@ -32,16 +42,17 @@
          localStorage.setItem(USER_LS,JSON.stringify(userInfo));
     }
     function nextQuestion() {
-        const username = sceneInfo[0].values.userInfo.name;
         sceneInfo[0].objs.content.style.transition = 'opacity .5s ease';
         sceneInfo[0].objs.content.style.opacity = 0;
-        sceneInfo[0].objs.content.addEventListener('transitionend',() => {
-            sceneInfo[0].objs.label.innerText = `How old are you, ${username}?`;
-            sceneInfo[0].objs.inputQuestion.dataset.question = 'age';
-            sceneInfo[0].objs.inputQuestion.style.width = `${sceneInfo[0].objs.label.offsetWidth}px`;
-            sceneInfo[0].objs.tip.innerText = `Sorry, doesn't seem to be a valid age. Please try again.`;
-            sceneInfo[0].objs.content.style.opacity = 1;
-        });
+        sceneInfo[0].objs.content.addEventListener('transitionend',ageQuestion);
+    }
+    function ageQuestion() {
+        const userName = sceneInfo[0].values.userInfo.name;
+        sceneInfo[0].objs.label.innerText = `How old are you, ${userName}?`;
+        sceneInfo[0].objs.inputQuestion.dataset.question = 'age';
+        sceneInfo[0].objs.inputQuestion.style.width = `${sceneInfo[0].objs.label.offsetWidth}px`;
+        sceneInfo[0].objs.tip.innerText = `Sorry, doesn't seem to be a valid age. Please try again.`;
+        sceneInfo[0].objs.content.style.opacity = 1;
     }
 
     function questionHandler() {
@@ -70,6 +81,54 @@
         }        
     }
 
+    /*Weather */
+    function getWeather(lat, lng) {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${API_KEY}&units=metric`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (json) {
+                console.log(json);
+                const icon = json.weather[0].icon;
+                const temperature = Math.floor(json.main.temp);
+                const place = json.name;
+                const index = place.indexOf("-");
+                console.log(sceneInfo[1].objs.weatherIcon.style.background)
+                sceneInfo[1].objs.weatherIcon.style.backgroundImage = `url(http://openweathermap.org/img/wn/${icon}@2x.png)`;
+                sceneInfo[1].objs.temperature.innerText = temperature;
+                sceneInfo[1].objs.local.innerText = place.slice(0,index);
+            });       
+    }
+
+    function saveCoords(coordsObj) {
+        localStorage.setItem(COORDS, JSON.stringify(coordsObj));
+    }
+
+    function handleGeoSuccess(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const coordsObj = {
+            latitude,
+            longitude,
+        };
+        saveCoords(coordsObj);
+        getWeather(latitude, longitude);
+    }
+
+    function askForCords() {
+        navigator.geolocation.getCurrentPosition(handleGeoSuccess);
+    }
+
+    function loadCoords() {
+        const loadedCoords = localStorage.getItem(COORDS);
+        if (loadedCoords === null) {
+            askForCords();
+        } else {
+            const parseCoords = JSON.parse(loadedCoords);
+            getWeather(parseCoords.latitude, parseCoords.longitude);
+        }
+    }
+
     sceneInfo[0].objs.inputQuestion.addEventListener('keydown', function(event){
         if(event.keyCode === 13) {
             questionHandler.call(this);
@@ -88,9 +147,16 @@
     })
 
     window.addEventListener('DOMContentLoaded', () => {
-        const userInfo = localStorage.getItem(USER_LS);
+        const userInfo = JSON.parse(localStorage.getItem(USER_LS));
         if(userInfo) {
-           
+            sceneInfo[0].values.userInfo = userInfo;
+            if(!userInfo.age){
+                ageQuestion();
+                return;
+            }
+            document.body.removeChild(sceneInfo[0].objs.container);
+            document.querySelector('body').classList.remove('before-question'); 
+            loadCoords();      
         }
     })
 
