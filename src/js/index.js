@@ -6,7 +6,7 @@
     const COORDS = "coords";
     const USER_LS = "currentUser";
     const TODO_LS = "todo-list'";
-    const toDos = [];
+    let toDos = [];
     const sceneInfo = [{
         objs: {
             container: document.querySelector('.question'),
@@ -28,8 +28,8 @@
             weatherIcon: document.querySelector('.weather__icon'),
             temperature: document.querySelector('.temperature'),
             local: document.querySelector('.local__name'),
-            clock: document.querySelector('.current-time'),
-            greeting: document.querySelector('.greeting-by-time'),
+            clock: document.querySelector('.clock'),
+            greeting: document.querySelector('.greeting'),
             inputTodo: document.querySelector('#input--todo'),
             memoContainer: document.querySelector('.todo-list__list'),
         }
@@ -140,7 +140,7 @@
         const hour = date.getHours();
         const minute = date.getMinutes();
         sceneInfo[1].objs.clock.innerText = 
-            `${hour > 10 ? hour:'0'+hour}:${minute > 10 ? minute:'0'+minute}`;
+            `${hour >= 10 ? hour:'0'+hour}:${minute >= 10 ? minute:'0'+minute}`;
     }
     /*Greeting */
     function greeting() {
@@ -168,29 +168,138 @@
     }
 
     /*Todo */
-    function deleteToDo(){
 
+    function todoToggleClickHandler(event) {
+        const target = event.target;
+        if(target.classList.contains('memo-delBtn')) {
+            deleteToDo(target);
+        }else if(target.classList.contains('memo-clearBtn')){
+            clearToDo(target);
+        }else if(target.classList.contains('memo-modifyBtn')){
+            modifyToDo(target);
+        }
+        
     }
+
+
+    function modifyToDo(target) {
+        const li = target.parentNode.parentNode;
+            if(li.querySelector('input')) {
+                const input = li.querySelector('input');
+                li.classList.remove('modify');
+                li.removeChild(input);
+            return;
+        }
+        const span = li.querySelector('span');
+        const value = span.innerText;
+        const input = document.createElement('input');
+        li.classList.add('modify');
+        input.classList.add('inputToDo');
+        input.value = value;
+        input.addEventListener('keydown', function(event){
+            if(event.keyCode === 13) {
+               const changeValue = this.value;
+                toDos.forEach(x => {
+                    if(x.id === parseInt(li.id)) {
+                        x.text = changeValue;
+                    }
+                });
+                saveToDos();
+                span.innerText = changeValue;
+                li.classList.remove('modify');
+                li.removeChild(input);
+            }
+
+        })
+        li.appendChild(input);
+        li.querySelector('input').focus();
+        
+    }
+
+    function clearToDo(target) {
+        const li = target.parentNode.parentNode;
+        const span = li.querySelector('span');
+        span.classList.toggle('clearToDo');
+
+        if(!span.classList.contains('clearToDo')){
+            unclearToDo(li);    
+            return;
+        }
+         toDos.forEach(x => {
+            if(x.id === parseInt(li.id)) {
+                x.state = 'clear';
+            }
+        });
+        saveToDos();
+
+        function unclearToDo(element) {
+            toDos.forEach(x => {
+                if(x.id === parseInt(element.id)) {
+                    x.state = '';
+                }
+            });
+            saveToDos();
+        }
+    }
+    
+
+    function deleteToDo(target){
+        const li = target.parentNode.parentNode;
+        sceneInfo[1].objs.memoContainer.removeChild(li);
+        const cleanToDos = toDos.filter(x => {
+            x.id !== parseInt(li.id);
+        });
+
+        toDos = cleanToDos;
+        saveToDos();
+    }
+
+    
 
     function saveToDos() {
         localStorage.setItem(TODO_LS, JSON.stringify(toDos));
     }
 
-    function paintToDo(text) {
+    function paintToDo(text, state) {
         const li = document.createElement('li');
+        const toggleDiv = document.createElement('div');
         const delBtn = document.createElement('button');
+        const clearBtn = document.createElement('button');
+        const modifyBtn = document.createElement('button');
         const span = document.createElement('span');
         const newId = toDos.length + 1;
-        delBtn.addEventListener('click', deleteToDo);
+        toggleDiv.classList.add('todo-toggle');
+        delBtn.classList.add('memo-delBtn');
+        delBtn.classList.add('button');
+        clearBtn.classList.add('memo-clearBtn');
+        clearBtn.classList.add('button');
+        modifyBtn.classList.add('memo-modifyBtn');
+        modifyBtn.classList.add('button');
+        toggleDiv.appendChild(clearBtn);
+        toggleDiv.appendChild(modifyBtn);
+        toggleDiv.appendChild(delBtn);
+        toggleDiv.addEventListener('click', todoToggleClickHandler);
         span.innerText = text;
+        if(state) {
+            span.classList.add('clearToDo');
+        }
         li.appendChild(span);
-        li.appendChild(delBtn);
+        li.appendChild(toggleDiv);
         li.id = newId;
+        li.addEventListener('click',(event) => {
+            let target = event.target;
+            if(target.nodeName === 'SPAN'){
+                target = target.parentNode;
+            }
+            if(target.id === li.id)
+                toggleDiv.classList.toggle('show');
+        })
         memoStyleCycle();
         sceneInfo[1].objs.memoContainer.appendChild(li);
         const toDoObj = {
             id: newId,
             text: text,
+            state: state === undefined ? '' : state,
         }
         toDos.push(toDoObj);
         saveToDos();
@@ -212,7 +321,7 @@
         if(loadedToDos !== null) {
             const parseToDos = JSON.parse(loadedToDos);
             for (const obj of parseToDos) {
-                paintToDo(obj.text);
+                paintToDo(obj.text, obj.state);
             }
         }
     };

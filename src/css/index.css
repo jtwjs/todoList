@@ -208,7 +208,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 120px;
+  margin-top: 120px;
   z-index: 2;
 }
 
@@ -216,23 +216,106 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 150px));
+  grid-auto-rows: minmax(150px, auto);
+  grid-gap: 10px;
   width: 100%;
-  height: 100vh;
-  padding: 10px;
-  z-index: -1;
+  padding: 15px;
+  padding-right: 160px;
 }
 
 .todo-list__list li {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  font-family: "Hi Melody", cursive;
+  font-size: var(--font-semi-medium);
+  text-align: center;
+  line-height: 1.5em;
+  word-spacing: 2em;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  cursor: pointer;
+}
+
+.modify span {
+  opacity: 0;
+}
+
+.todo-toggle {
+  position: absolute;
+  bottom: -50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border-radius: 50px;
+  padding: 5px;
+  background-color: var(--color-white);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0s ease 0.2s;
+  cursor: default;
+}
+
+.todo-toggle::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 20%;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent var(--color-white) transparent;
+}
+
+.todo-toggle.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.button {
+  width: 25px;
+  height: 25px;
+  transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
+}
+.button:hover {
+  opacity: 0.7;
+}
+
+.memo-clearBtn {
+  background: center / cover no-repeat url(../assets/memo-clear.png);
+}
+
+.memo-modifyBtn {
+  background: center / cover no-repeat url(../assets/memo-update.png);
+}
+
+.memo-delBtn {
+  background: center / cover no-repeat url(../assets/memo-delete.png);
+}
+
+.clearToDo {
+  text-decoration: line-through;
+}
+
+.inputToDo {
+  position: absolute;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  font-size: var(--font-semi-medium);
+  font-family: "Hi Melody", cursive;
+  color: var(--color-white);
 }
 
 .clock {
