@@ -326,15 +326,22 @@ body {
   font-size: var(--font-xxlarge);
 }
 .greeting {
-  margin-bottom: 0.8em;
+  margin-bottom: 0.6em;
   font-size: var(--font-large);
   text-align: center;
+}
+
+.todo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .todo-input-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 10px;
   font-size: var(--font-medium);
 }
 
@@ -343,8 +350,6 @@ body {
 }
 
 .todo-tip {
-  position: absolute;
-  bottom: 70px;
   font-size: var(--font-semi-medium);
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
@@ -357,11 +362,14 @@ body {
 #footer {
   position: fixed;
   bottom: 0;
+  display: flex;
   width: 100%;
   padding: 20px;
 }
 
-.app-type {
-  display: flex;
-  justify-content: flex-end;
+.wise-saying {
+  width: 100%;
+  padding-left: 30px;
+  font-weight: var(--weight-bold);
+  text-align: center;
 }
