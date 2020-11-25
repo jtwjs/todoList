@@ -6,6 +6,56 @@
     const COORDS = "coords";
     const USER_LS = "currentUser";
     const TODO_LS = "todo-list'";
+    const WISE_SAYING = {
+        spring: ["인간의 감정은 누군가를 만날 때와 헤어질 때 가장 순수하면 가장 빛난다.",
+                "나이가 성숙을 보장하지 않는다.",
+                "어떤 것을 완전히 알려든 그것을 다른 이에게 가르쳐라!",
+                "말 적은 이가 제일 좋은 사람이다.",
+                "실수는 발견의 시작이다.",
+                "올바른 원칙을 아기만 하는 자는 그것을 사랑하는 자와 같지 않으니라!",
+                "나만이 내 인생을 바꿀 수 있다. 아무도 날 대신해 해줄수 없다.",
+                "세상 모든 일은 여러분이 무엇을 생각하느냐에 따라 일어난다.",
+                "교육은 배운 것이 잊혀졌을 때 살아 남는 것이다.",
+                "세상은 오직 성공한 자의 자랑에만 관대하다.",
+                "우리는 너무 많이 생각하고 너무 적게 느긴다.",
+                "모든 문제에는 인내가 최고의 해법이다.",
+                "용기의 핵심 부분은 신중함이다."],
+        summer: ["산다는 것, 그것은 치열한 전투다.",
+                "미래는 주저하면서 다가오고, 현재는 화살같이 날아가고, 과거는 영원히 정지하고 있다.",
+                "성공한 사람이 아니라 가치 있는 사람이 되려고 힘써라.",
+                "목표 안에서도 삶을 살고 즐길 수 있다.",
+                "성공의 커다란 비결은 결코 지치지 않는 인간으로 인생을 살아가는 것이다.",
+                "가슴 뛰는 꿈은 없다. 작은 꿈을 만나 내 가슴이 뛸 대까지 노력하는 것",
+                "인생은 곱셈과 같다. 찬스가 오더라도 내가 제로이면 아무런 의미가 없다.",
+                "술이 생각해 내는 것은 아무것도 없다. 그저 떠들어댈 뿐이다.",
+                "이 세상은 한편의 아름다운 책이다. 그러나 그 책을 읽지 않으면 아무 쓸모가 없게 된다.",
+            ],
+        attum:  ["자신감은 아름답고 강력하다.",
+                "눈가에 주름이 생긴다고 해도 웃는게 좋다.",
+                "당신의 삶은 그 누구의 기대, 취향, 희망, 꿈에도 맞추지 마라",
+                "원한은 품을 만한게 못된다.",
+                "수고를 들여 다른 사람을 기쁘게 해주면 절대 후회하지 않는다.",
+                "누가 날 생각해주고 기억해 주는건 좋은 일이다.",
+                "가끔은 옳은 일이기 때문에 해야 하는 일도 있다.",
+                "뻔히 존재하는 문제를 무시하면 안된다.",
+                "숙면은 하늘이 내린 선물이고 모든 것을 바꿀 수 있다.",
+                "변화를 받아들이고 포옹하며 환영하라.",
+                "위험을 감수하고 배짱있게 기회를 잡아라. 다시 오지 않을수도 있으니까",
+                "당신 내면을 다른 사람들의 외면과 비교하지마라",
+            ],
+        winter: ["남자는 늙어감에 따라 감정이 나이를 먹고 여자는 늙어감에 따라 얼굴에 나이를 먹는다.",
+                "노년, 무지한 사람에게 그것은 겨울, 배운 자에게 그것은 수확의 시기.",
+                "노년(老年)은 죽음에 둘러싸인 섬이로다.",
+                "노인은 존경을 강요하지 말아야 한다. 그 대신 그는 얼굴의 주름살은 경험의 중요성과 인격의 견고성을 상징하는 것이여야 한다.",
+                "노인은 죽음의 공포 떄문에 청년의 쾌락을 금하는 폭군이다.",
+                "누구나 이후 1년을 더 살수 있을지 의문일 정도로 늙은 사람은 없다.",
+                "노인이 되는 것은 비참한 사람이 되는 것이 아니다. 자기의 나이답게 살 수 없는 사람만이 비참한 사람이다.",
+                "늙은 말의 지혜는 쓸만하다.",
+                "늙은이는 얼굴보다 마음에 더 많은 주름이 있다.",
+                "늙어가는 법을 안다는 것은 지혜의 걸작으로, 위대한 삶의 예술 가운데서도 가장 어려운 장에 속한다.",
+                "사람이 뭔가를 추구하고 있는 한 절대로 노인이 아니다.",
+                "지혜를 낳는 것은 백발(白髮)이 아니다"],
+    };
     let scene = 0;
     let toDos = [];
     const sceneInfo = [{
@@ -34,6 +84,7 @@
             inputTodo: document.querySelector('#input--todo'),
             memoContainer: document.querySelector('.todo-list__list'),
             tip: document.querySelector('.todo-tip'),
+            wiseSaying: document.querySelector('.wise-saying'),
         }
                         
                     }];
@@ -68,6 +119,7 @@
     }
     function mainPage() {
         document.querySelector('body').classList.remove('before-question');
+        wiseSaying();
     }
 
     function questionHandler() {
@@ -348,6 +400,39 @@
             }
         }
     };
+    /*Wise Saying */
+    function wiseSaying() {
+        const age = parseInt(sceneInfo[0].values.userInfo.age);
+        console.log(sceneInfo[0].values.userInfo.age);
+        const saying =  getWiseSaying(age);
+        sceneInfo[1].objs.wiseSaying.innerText = saying;
+    }
+    function getWiseSaying(age) {
+        let season = '';
+        if(age < 20) {
+            season = 'spring';
+        }else if(age < 30){
+            season = 'summer';
+        }else if(age < 50) {
+            season = 'attum';
+        }else {
+            season = 'winter';
+        }
+        return randomSaying(season);
+
+        function randomSaying(season) {
+            const ranNum = Math.floor(Math.random() * WISE_SAYING[season].length);
+            console.log(ranNum);
+            return WISE_SAYING[season][ranNum];
+        }
+    }
+
+
+    function setUserInfo() {
+        const currentUser = localStorage.getItem(USER_LS);
+        if(currentUser !== null)
+            sceneInfo[0].values.userInfo = JSON.parse(currentUser);
+    }
 
     sceneInfo[0].objs.inputQuestion.addEventListener('keydown', function(event){
         if(event.keyCode === 13) {
@@ -362,7 +447,7 @@
     });
 
     sceneInfo[0].objs.container.addEventListener('transitionend', (e) => {
-        if(sceneInfo[0].values.userInfo.age)
+        if(sceneInfo[0].values.userInfo.age) 
         document.body.removeChild(e.currentTarget);
     });
 
@@ -376,12 +461,14 @@
         const loadedUserInfo = localStorage.getItem(USER_LS);
         getCurrentTime();      
         setInterval(getCurrentTime, 1000);
+        setUserInfo();
         loadCoords();
         loadToDos();
         if(loadedUserInfo !== null) {
             const parseUserInfo = JSON.parse(loadedUserInfo);
             sceneInfo[0].values.userInfo = parseUserInfo;
             greeting();
+            wiseSaying();
             if(!parseUserInfo.age){
                 ageQuestion();
                 return;
