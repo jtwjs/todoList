@@ -6,6 +6,7 @@
     const COORDS = "coords";
     const USER_LS = "currentUser";
     const TODO_LS = "todo-list'";
+    let scene = 0;
     let toDos = [];
     const sceneInfo = [{
         objs: {
@@ -32,6 +33,7 @@
             greeting: document.querySelector('.greeting'),
             inputTodo: document.querySelector('#input--todo'),
             memoContainer: document.querySelector('.todo-list__list'),
+            tip: document.querySelector('.todo-tip'),
         }
                         
                     }];
@@ -47,18 +49,25 @@
          userInfo.age = age;
          localStorage.setItem(USER_LS,JSON.stringify(userInfo));
     }
-    function nextQuestion() {
+    function nextPage() {
         sceneInfo[0].objs.content.style.transition = 'opacity .5s ease';
         sceneInfo[0].objs.content.style.opacity = 0;
-        sceneInfo[0].objs.content.addEventListener('transitionend',ageQuestion);
+        if(scene === 0){
+            sceneInfo[0].objs.content.addEventListener('transitionend',ageQuestionPage);
+        }else {
+            sceneInfo[0].objs.content.addEventListener('transitionend',mainPage);
+        }
     }
-    function ageQuestion() {
+    function ageQuestionPage() {
         const userName = sceneInfo[0].values.userInfo.name;
         sceneInfo[0].objs.label.innerText = `How old are you, ${userName}?`;
         sceneInfo[0].objs.inputQuestion.dataset.question = 'age';
         sceneInfo[0].objs.inputQuestion.style.width = `${sceneInfo[0].objs.label.offsetWidth}px`;
         sceneInfo[0].objs.tip.innerText = `Sorry, doesn't seem to be a valid age. Please try again.`;
         sceneInfo[0].objs.content.style.opacity = 1;
+    }
+    function mainPage() {
+        document.querySelector('body').classList.remove('before-question');
     }
 
     function questionHandler() {
@@ -68,7 +77,7 @@
                 if(this.value){
                     registerName(this.value);
                     this.nextElementSibling.classList.remove('active');
-                    nextQuestion();
+                    nextPage();
                     greeting();
                     }
                 else {
@@ -78,7 +87,8 @@
             case "age": 
                 if (!/[^0-9]/g.test(this.value) && this.value > 0 && this.value < 100) {
                     registerAge(this.value);
-                    document.querySelector('body').classList.remove('before-question');       
+                    scene++;           
+                    nextPage();       
                 } 
                 else {
                     this.nextElementSibling.classList.add('active');
@@ -247,9 +257,8 @@
         const li = target.parentNode.parentNode;
         sceneInfo[1].objs.memoContainer.removeChild(li);
         const cleanToDos = toDos.filter(x => {
-            x.id !== parseInt(li.id);
+            return x.id !== parseInt(li.id);
         });
-
         toDos = cleanToDos;
         saveToDos();
     }
@@ -286,13 +295,21 @@
         li.appendChild(span);
         li.appendChild(toggleDiv);
         li.id = newId;
+        li.classList.add('todo-list__list__item')
         li.addEventListener('click',(event) => {
             let target = event.target;
             if(target.nodeName === 'SPAN'){
                 target = target.parentNode;
             }
-            if(target.id === li.id)
+            if(target.id === li.id){
                 toggleDiv.classList.toggle('show');
+                const liArr = document.querySelectorAll('.todo-list__list__item');
+                for (const li of liArr) {
+                    if(target.id !== li.id)
+                        li.querySelector('.todo-toggle').classList.remove('show');
+                }
+            }
+            
         })
         memoStyleCycle();
         sceneInfo[1].objs.memoContainer.appendChild(li);
@@ -312,7 +329,13 @@
 
     function todoSubmit(){
         const value = this.value;
+        if(toDos.length >= 8){
+            sceneInfo[1].objs.tip.classList.add('active');
+            this.value = '';
+            return;
+        }
         paintToDo(value);
+        sceneInfo[1].objs.tip.classList.remove('active');
         this.value = '';
     }
     
