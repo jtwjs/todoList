@@ -238,7 +238,7 @@ body {
   font-size: var(--font-semi-medium);
   text-align: center;
   line-height: 1.5em;
-  word-spacing: 1.2em;
+  word-break: keep-all;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
