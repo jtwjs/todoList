@@ -85,9 +85,22 @@
             memoContainer: document.querySelector('.todo-list__list'),
             tip: document.querySelector('.todo-tip'),
             wiseSaying: document.querySelector('.wise-saying'),
-        }
-                        
-                    }];
+        },              
+                    },
+        {
+            objs: {
+                modalOpenBtn: document.querySelector('.feed-back__btn'),
+                feedModal: document.querySelector('.feed-back__modal'),
+                textarea: document.querySelector('textarea'),
+            },
+            values: {
+                feedBack: {
+                    score: '',
+                    text: '',
+                },
+                color: ['#4399ff','#58d8d9','#ffce78','#ffa056','#ff8080']
+            }
+        }];
 
     /*Question */
     function registerName(name) {
@@ -403,7 +416,6 @@
     /*Wise Saying */
     function wiseSaying() {
         const age = parseInt(sceneInfo[0].values.userInfo.age);
-        console.log(sceneInfo[0].values.userInfo.age);
         const saying =  getWiseSaying(age);
         sceneInfo[1].objs.wiseSaying.innerText = saying;
     }
@@ -422,11 +434,42 @@
 
         function randomSaying(season) {
             const ranNum = Math.floor(Math.random() * WISE_SAYING[season].length);
-            console.log(ranNum);
             return WISE_SAYING[season][ranNum];
         }
     }
 
+    /*feed-back Modal */
+    sceneInfo[2].objs.modalOpenBtn.addEventListener('click', feedModalOpen);
+    sceneInfo[2].objs.feedModal.addEventListener('click', feedModalClickHandler);
+
+    function feedModalOpen() {
+        sceneInfo[2].objs.feedModal.classList.toggle('show');
+    }
+    function feedModalClickHandler(event) {
+        const colorArr = sceneInfo[2].values.color;
+        let target = event.target;
+        console.log(target);
+
+        if(target.classList.contains('eval-btn')) {
+            switch(target.dataset.eval) {
+                case 'best':
+                    this.style.backgroundColor = `${colorArr[0]}`;
+                    break;
+                case 'good':
+                    this.style.backgroundColor = `${colorArr[1]}`;
+                    break;
+                case 'soso':
+                    this.style.backgroundColor = `${colorArr[2]}`;
+                    break;
+                case 'bad':
+                    this.style.backgroundColor = `${colorArr[3]}`;
+                    break;
+                case 'worst':
+                    this.style.backgroundColor = `${colorArr[4]}`;
+                    break;
+            }
+        }
+    }
 
     function setUserInfo() {
         const currentUser = localStorage.getItem(USER_LS);
