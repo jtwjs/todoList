@@ -2,6 +2,7 @@
   /* Color */
   --color-white: #ffffff;
   --color-black: #282828;
+  --color-navy: #212c35;
 
   /* Font-size */
   --font-xxlarge: 11rem;
@@ -209,7 +210,6 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: 120px;
-  z-index: 2;
 }
 
 .todo-list__list {
@@ -233,7 +233,7 @@ body {
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: 15px;
   font-family: "Hi Melody", cursive;
   font-size: var(--font-semi-medium);
   text-align: center;
@@ -246,7 +246,7 @@ body {
 }
 
 .todo-list__list__item span {
-  overflow: hidden;
+  width: 100%;
 }
 
 .modify span {
@@ -267,10 +267,15 @@ body {
   z-index: 999;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease-in-out, visibility 0s ease 0.2s;
+  transition: opacity 0.5s ease, visibility 0s ease 0.5s;
   cursor: default;
 }
 
+.todo-toggle.show {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0s ease;
+}
 .todo-toggle::before {
   content: "";
   position: absolute;
@@ -281,16 +286,13 @@ body {
   border-color: transparent transparent var(--color-white) transparent;
 }
 
-.todo-toggle.show {
-  opacity: 1;
-  visibility: visible;
-}
-
 .button {
-  width: 25px;
-  height: 25px;
   transition: opacity 0.3s ease-in-out;
   cursor: pointer;
+}
+.todo-toggle .button {
+  width: 25px;
+  height: 25px;
 }
 .button:hover {
   opacity: 0.7;
@@ -372,4 +374,118 @@ body {
   padding-left: 30px;
   font-weight: var(--weight-bold);
   text-align: center;
+}
+
+.feed-back__btn {
+  font-family: "Jaldi", sans-serif;
+  font-size: var(--font-regular);
+  font-weight: var(--weight-bold);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.feed-back__modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 300px;
+  border-radius: 30px;
+  padding: 10px 20px;
+  background-color: var(--color-navy);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 999;
+  transition: opacity 0.3s ease-in-out, visibility 0s ease 0.3s;
+}
+
+.feed-back__modal.show {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0s ease, background 0.3s ease-in-out;
+}
+
+.feed-back__title {
+  margin-bottom: 10px;
+  font-size: var(--font-semi-medium);
+  font-weight: var(--weight-bold);
+}
+
+.feed-back__evaluation {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-bottom: 10px;
+}
+
+.evaluation-score {
+  display: flex;
+  height: 80px;
+  margin-bottom: 10px;
+  padding: 0 23px;
+}
+
+.evaluation-score__item {
+  width: 45px;
+  padding: 14px 0;
+}
+
+.eval-btn {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.eval-btn[data-eval="best"] {
+  background: center / cover no-repeat url(../assets/feed-back/evaluation_best.png);
+}
+
+.eval-btn[data-eval="good"] {
+  background: center / cover no-repeat url(../assets/feed-back/evaluation_good.png);
+}
+
+.eval-btn[data-eval="soso"] {
+  background: center / cover no-repeat url(../assets/feed-back/evaluation_soso.png);
+}
+
+.eval-btn[data-eval="bad"] {
+  background: center / cover no-repeat url(../assets/feed-back/evaluation_bad.png);
+}
+
+.eval-btn[data-eval="worst"] {
+  background: center / cover no-repeat url(../assets/feed-back/evaluation_worst.png);
+}
+
+.textarea {
+  width: 100%;
+  height: 100%;
+  font-family: "Hi Melody", cursive;
+  font-size: var(--font-semi-medium);
+  font-weight: var(--weight-bold);
+  resize: none;
+  overflow: hidden;
+}
+
+.feed-back__btn {
+  display: flex;
+  justify-content: center;
+}
+
+.feed-back__btn .button {
+  width: 30px;
+  height: 30px;
+  background-size: 110px;
+  background-repeat: no-repeat;
+  background-image: url(../assets/feed-back/button.png);
+}
+
+.submit-btn {
+  margin-right: 10px;
+  background-position: -72px -22px;
+}
+.cancle-btn {
+  background-position: -72px -55px;
 }
