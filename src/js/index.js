@@ -71,6 +71,7 @@
             userInfo: {
                 name: '',
                 age: '',
+                feed: '',
             },
         }
     },
@@ -91,11 +92,14 @@
             objs: {
                 modalOpenBtn: document.querySelector('.feed-back__btn'),
                 feedModal: document.querySelector('.feed-back__modal'),
+                content: document.querySelector('.modal-wrap'),
+                title: document.querySelector('.feed-back__title'),
                 textarea: document.querySelector('textarea'),
+                tip: document.querySelector('.feed-back-tip'),
             },
             values: {
                 feedBack: {
-                    score: '',
+                    grade: '',
                     text: '',
                 },
                 color: ['#4399ff','#58d8d9','#ffce78','#ffa056','#ff8080']
@@ -104,15 +108,18 @@
 
     /*Question */
     function registerName(name) {
-        const userInfo = sceneInfo[0].values.userInfo;
-         userInfo.name = name;
-        localStorage.setItem(USER_LS,JSON.stringify(userInfo));
+         sceneInfo[0].values.userInfo.name = name;
+         saveUserInfo();
     }
     function registerAge(age) {
-        const userInfo = sceneInfo[0].values.userInfo;
-         userInfo.age = age;
-         localStorage.setItem(USER_LS,JSON.stringify(userInfo));
+         sceneInfo[0].values.userInfo.age = age;
+         saveUserInfo();
     }
+    function saveUserInfo() {
+        const userInfo = sceneInfo[0].values.userInfo;
+        localStorage.setItem(USER_LS,JSON.stringify(userInfo));
+    }
+
     function nextPage() {
         sceneInfo[0].objs.content.style.transition = 'opacity .5s ease';
         sceneInfo[0].objs.content.style.opacity = 0;
@@ -443,7 +450,8 @@
     sceneInfo[2].objs.feedModal.addEventListener('click', feedModalClickHandler);
 
     function feedModalOpen() {
-        sceneInfo[2].objs.feedModal.classList.toggle('show');
+        if(!sceneInfo[0].values.userInfo.feed)
+            sceneInfo[2].objs.feedModal.classList.toggle('show');
     }
     function feedModalClickHandler(event) {
         const colorArr = sceneInfo[2].values.color;
@@ -453,22 +461,86 @@
         if(target.classList.contains('eval-btn')) {
             switch(target.dataset.eval) {
                 case 'best':
-                    this.style.backgroundColor = `${colorArr[0]}`;
+                    sceneInfo[2].objs.title.style.color = `${colorArr[0]}`;
+                    setGrade(target.dataset.eval);
                     break;
                 case 'good':
-                    this.style.backgroundColor = `${colorArr[1]}`;
+                    sceneInfo[2].objs.title.style.color = `${colorArr[1]}`;
+                    setGrade(target.dataset.eval);
                     break;
                 case 'soso':
-                    this.style.backgroundColor = `${colorArr[2]}`;
+                    sceneInfo[2].objs.title.style.color = `${colorArr[2]}`;
+                    setGrade(target.dataset.eval);
                     break;
                 case 'bad':
-                    this.style.backgroundColor = `${colorArr[3]}`;
+                    sceneInfo[2].objs.title.style.color = `${colorArr[3]}`;
+                    setGrade(target.dataset.eval);
                     break;
                 case 'worst':
-                    this.style.backgroundColor = `${colorArr[4]}`;
+                    sceneInfo[2].objs.title.style.color = `${colorArr[4]}`;
+                    setGrade(target.dataset.eval);
                     break;
             }
         }
+        if(target.classList.contains('submit-btn')) {
+            setText(sceneInfo[2].objs.textarea.value);
+            if(!sceneInfo[2].values.feedBack.text || !sceneInfo[2].values.feedBack.grade){
+                if(!sceneInfo[2].values.feedBack.grade) {
+                    sceneInfo[2].objs.tip.innerText = `↑ Please select an evaluation grade.`;
+                    sceneInfo[2].objs.tip.classList.add('active');
+                }else if(!sceneInfo[2].values.feedBack.text) {
+                    sceneInfo[2].objs.tip.innerText = `↓ Please leave your feedback.`;
+                    sceneInfo[2].objs.tip.classList.add('active');
+
+                }
+                sceneInfo[2].objs.content.classList.add('error');
+                sceneInfo[2].objs.content.addEventListener('animationend', () => {
+                    sceneInfo[2].objs.content.classList.remove('error');
+                })
+                return;
+            }
+            sendFeedback();
+            
+        }
+        if(target.classList.contains('cancle-btn')) {
+            cancleFeedback();
+        }
+    }
+
+    function setGrade(grade) {
+        sceneInfo[2].values.feedBack.grade = grade;
+    }
+    function setText(text) {
+        sceneInfo[2].values.feedBack.text = text;
+    }
+    function cancleFeedback() {
+        sceneInfo[2].values.feedBack.grade = '';
+        sceneInfo[2].values.feedBack.text = '';
+        sceneInfo[2].objs.textarea.value = '';
+        sceneInfo[2].objs.title.style.color = 'inherit';
+        sceneInfo[2].objs.feedModal.classList.remove('show');
+        sceneInfo[2].objs.tip.classList.remove('active');
+    }
+    /*emailjs */
+
+    function sendFeedback(){
+        const grade = sceneInfo[2].values.feedBack.grade;
+        const text = sceneInfo[2].values.feedBack.text;
+        const obj = {
+            to_name: 'Woong',
+            from_name: sceneInfo[0].values.userInfo.name,
+            message: `grade: ${grade}, message: ${text}`,
+        };
+
+    emailjs.send('service_ggvpk9f','template_4liun4k', obj)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            sceneInfo[0].values.userInfo.feed = 'OK';
+            sceneInfo[2].objs.feedModal.classList.remove('show');
+            saveUserInfo();
+        }, function(error) {
+            console.log('FAILED...', error);
+        });
     }
 
     function setUserInfo() {
