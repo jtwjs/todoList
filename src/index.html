@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./css/index.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js">
+    </script>
+    <script type="text/javascript" src="./js/emailjs.js">
+    </script>
     <script type="module" src="../src/js/index.js" defer> </script>
 </head>
 <body class="before-question">
@@ -82,26 +87,30 @@
                     Todo
                 </button>
                 <div class="feed-back__modal">
-                    <div class="feed-back__title">
-                        Feed-Back
-                    </div>
-                    <div class="feed-back__evaluation">
-                        <ul class="evaluation-score">
-                            <li class="evaluation-score__item"><button class="eval-btn" data-eval="best"><span class="sr-only">good</span></button></li>
-                            <li class="evaluation-score__item"><button class="eval-btn" data-eval="good"><span class="sr-only">best</span></button></li>
-                            <li class="evaluation-score__item"><button class="eval-btn" data-eval="soso"><span class="sr-only">soso</span></button></li>
-                            <li class="evaluation-score__item"><button class="eval-btn" data-eval="bad"><span class="sr-only">bad</span></button></li>
-                            <li class="evaluation-score__item"><button class="eval-btn" data-eval="worst"><span class="sr-only">worst</span></button></li>
-                        </ul>
-                        <textarea class="textarea"></textarea>
-                    </div>
-                    <div class="feed-back__btn">
-                        <button type="button" class="button submit-btn">
-                            <span class="sr-only">Submit</span>
-                        </button>
-                        <button type="button" class="button cancle-btn">
-                            <span class="sr-only">Cancle</span>
-                        </button>
+                    <div class="modal-wrap">
+                        <div class="feed-back__title">
+                            Feed-Back
+                        </div>
+                        <div class="feed-back__evaluation">
+                            <ul class="evaluation-score">
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="best"><span class="sr-only">good</span></button></li>
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="good"><span class="sr-only">best</span></button></li>
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="soso"><span class="sr-only">soso</span></button></li>
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="bad"><span class="sr-only">bad</span></button></li>
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="worst"><span class="sr-only">worst</span></button></li>
+                            </ul>
+                            <span class="feed-back-tip">
+                            </span>
+                            <textarea class="textarea" placeholder="피드백을 남겨주세요!"></textarea>
+                        </div>
+                        <div class="feed-back__btn">
+                            <button type="button" class="button submit-btn">
+                                <span class="sr-only">Submit</span>
+                            </button>
+                            <button type="button" class="button cancle-btn">
+                                <span class="sr-only">Cancle</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
