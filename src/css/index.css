@@ -524,3 +524,10 @@ body {
 .cancle-btn {
   background-position: -72px -55px;
 }
+
+.colpyright {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
