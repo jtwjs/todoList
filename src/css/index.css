@@ -380,8 +380,6 @@ body {
 }
 
 .footer-bottom {
-  display: flex;
-  align-items: center;
   width: 100%;
   padding-left: 30px;
 }
@@ -389,17 +387,19 @@ body {
 .footer-bottom__content {
   position: relative;
   display: flex;
+  align-items: center;
   justify-content: center;
   width: max-content;
+  height: 100%;
   margin: 0 auto;
 }
 
 .footer-bottom__content:hover .wise-saying {
-  transform: translateY(-60%);
+  transform: translateY(-70%);
 }
 
 .footer-bottom__content:hover .copyright {
-  transform: translateY(60%);
+  transform: translateY(70%);
   opacity: 1;
 }
 
@@ -416,7 +416,7 @@ body {
   top: 0;
   text-align: center;
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.5s ease;
 }
 
 .footer-right {
