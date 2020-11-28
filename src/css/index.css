@@ -257,6 +257,7 @@ body {
 
 .todo-list__list__item span {
   width: 100%;
+  word-wrap: break-word;
 }
 
 .modify span {
