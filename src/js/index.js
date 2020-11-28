@@ -588,7 +588,7 @@
             greeting();
             wiseSaying();
             if(!parseUserInfo.age){
-                ageQuestion();
+                ageQuestionPage();
                 return;
             }
             document.body.removeChild(sceneInfo[0].objs.container);
