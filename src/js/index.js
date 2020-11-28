@@ -396,7 +396,7 @@
 
         function memoStyleCycle() {
             const randomNum = Math.floor(Math.random() * 11 + 1);
-            li.style.backgroundImage = `url(./assets/sticker/memo_${randomNum}.png)`;
+            li.style.backgroundImage = `url(./src/assets/sticker/memo_${randomNum}.png)`;
         }
     }
 
