@@ -379,11 +379,47 @@ body {
   padding: 20px;
 }
 
-.wise-saying {
+.footer-bottom {
+  display: flex;
+  align-items: center;
   width: 100%;
   padding-left: 30px;
+}
+
+.footer-bottom__content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.footer-bottom__content:hover .wise-saying {
+  transform: translateY(-60%);
+}
+
+.footer-bottom__content:hover .copyright {
+  transform: translateY(60%);
+  opacity: 1;
+}
+
+.wise-saying {
+  display: block;
+  width: max-content;
   font-weight: var(--weight-bold);
   text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.copyright {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.footer-right {
 }
 
 .feed-back__btn {
@@ -523,11 +559,4 @@ body {
 }
 .cancle-btn {
   background-position: -72px -55px;
-}
-
-.colpyright {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
 }
