@@ -389,6 +389,7 @@
             id: newId,
             text: text,
             state: state === undefined ? '' : state,
+            timeStamp: new Date().getDate(),
         }
         toDos.push(toDoObj);
         saveToDos();
@@ -412,11 +413,13 @@
     }
     
     function loadToDos() {
+        const date = new Date().getDate();
         const loadedToDos = localStorage.getItem(TODO_LS);
         if(loadedToDos !== null) {
             const parseToDos = JSON.parse(loadedToDos);
             for (const obj of parseToDos) {
-                paintToDo(obj.text, obj.state);
+                if(obj.timeStamp === date)
+                    paintToDo(obj.text, obj.state);
             }
         }
     };
