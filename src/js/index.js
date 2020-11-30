@@ -86,6 +86,8 @@
             memoContainer: document.querySelector('.todo-list__list'),
             tip: document.querySelector('.todo-tip'),
             wiseSaying: document.querySelector('.wise-saying'),
+            todoBtn: document.querySelector('.todo-btn'),
+            backBtn: document.querySelector('.back-btn'),
         },              
                     },
         {
@@ -250,6 +252,12 @@
     }
 
     /*Todo */
+    function todoClickHandler() {
+        document.querySelector('body').classList.add('todoPage');
+    }
+    function backClickHadnelr() {
+        document.querySelector('body').classList.remove('todoPage');
+    }
 
     function todoToggleClickHandler(event) {
         const target = event.target;
@@ -259,10 +267,8 @@
             clearToDo(target);
         }else if(target.classList.contains('memo-modifyBtn')){
             modifyToDo(target);
-        }
-        
+        }   
     }
-
 
     function modifyToDo(target) {
         const li = target.parentNode.parentNode;
@@ -402,7 +408,7 @@
 
     function todoSubmit(){
         const value = this.value;
-        if(toDos.length >= 8){
+        if(toDos.length >= 40){
             sceneInfo[1].objs.tip.classList.add('active');
             this.value = '';
             return;
@@ -582,6 +588,8 @@
         }
     });
 
+    sceneInfo[1].objs.todoBtn.addEventListener('click', todoClickHandler);
+    sceneInfo[1].objs.backBtn.addEventListener('click', backClickHadnelr);
     window.addEventListener('resize', () => {
         if (matchMedia("screen and (min-width: 768px)").matches) {
 
