@@ -148,15 +148,28 @@ body {
 #header {
   position: fixed;
   top: 0;
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   padding: 20px;
   font-family: "Hi Melody", cursive;
+  z-index: 2;
 }
 
+.header-left {
+}
+
+.todo-btn {
+  font-size: var(--font-semi-medium);
+  font-weight: var(--weight-bold);
+  cursor: pointer;
+}
+
+.header-right {
+}
 .weatherInfo {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
 }
 .weatherInfo__weather {
   display: flex;
@@ -208,6 +221,7 @@ body {
   letter-spacing: 0.05em;
   background: center / cover no-repeat url(../assets/sticker/sticker_green.png);
 }
+
 /* Main */
 #main {
   position: relative;
@@ -386,12 +400,14 @@ body {
   position: fixed;
   bottom: 0;
   display: flex;
+  align-items: center;
   width: 100%;
-  padding: 20px;
+  padding: 0.6em;
 }
 
 .footer-bottom {
   width: 100%;
+  padding: 0.5em;
 }
 
 .footer-bottom__content {
@@ -420,6 +436,8 @@ body {
   width: max-content;
   font-weight: var(--weight-bold);
   text-align: center;
+  line-height: 1.2;
+  word-break: keep-all;
   transition: transform 0.3s ease;
 }
 
@@ -432,16 +450,20 @@ body {
 }
 
 .feed-back {
-  position: absolute;
-  right: 20px;
+  position: fixed;
+  bottom: 0.8em;
+  right: 0.8em;
 }
 
 .feed-back__btn {
-  font-family: "Jaldi", sans-serif;
-  font-size: var(--font-regular);
-  font-weight: var(--weight-bold);
-  color: var(--color-white);
+  width: 25px;
+  height: 25px;
+  background: center / contain no-repeat url(../assets/heart-icon.png);
   cursor: pointer;
+}
+
+.complete.feed-back__btn {
+  background: center / contain no-repeat url(../assets/heart-fill-icon.png);
 }
 
 .feed-back__modal {
@@ -554,12 +576,12 @@ body {
   overflow: hidden;
 }
 
-.feed-back__btn {
+.button-wrap {
   display: flex;
   justify-content: center;
 }
 
-.feed-back__btn .button {
+.button-wrap .button {
   width: 30px;
   height: 30px;
   background-size: 110px;
@@ -605,10 +627,6 @@ body {
 
   .todo-tip {
     font-size: var(--font-semi-medium);
-  }
-
-  .footer-bottom {
-    padding-left: 0;
   }
 }
 
