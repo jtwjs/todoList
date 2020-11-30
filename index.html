@@ -36,28 +36,40 @@
         </div>
 
     </section>
+    <section class="todo-list hide">
+        <button type="button" class="back-btn">
+            <span class="sr-only">뒤로가기</span>
+        </button>
+        <ul class="todo-list__list">
+        </ul>
+    </section>
     <section class="container">
         <header id="header">
-            <div class="weatherInfo">
-                <div class="weatherInfo__weather">
-                    <span class="weather__category">날씨:</span>
-                    <div class="weather__content">
-                        <i class="weather__icon">
-                        </i>
-                        <span class="temperature">
-                        </span>
+            <div class="header-left">
+                <button type="button" class="todo-btn">
+                    ToDos
+                </button>
+            </div>
+            <div class="header-right">
+                <div class="weatherInfo">
+                    <div class="weatherInfo__weather">
+                        <span class="weather__category">날씨:</span>
+                        <div class="weather__content">
+                            <i class="weather__icon">
+                            </i>
+                            <span class="temperature">
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <div class="weatherInfo__local">
-                    <span class="weather__category">지역:</span>
-                    <span class="local__name"></span>
+                    <div class="weatherInfo__local">
+                        <span class="weather__category">지역:</span>
+                        <span class="local__name"></span>
+                    </div>
                 </div>
             </div>
         </header>
         <main id="main">
-            <section class="todo-list">
-                <ul class="todo-list__list">
-                </ul>
+            <section class="todo-main">
                 <h2 class="sr-only">
                     todo list
                 </h2>
@@ -88,40 +100,37 @@
                     </span>
                 </div>
             </div>
-            
-                <div class="feed-back">
-                    <button type="button" class="feed-back__btn">
-                        Feed Back
-                    </button>
-                    <div class="feed-back__modal">
-                        <div class="modal-wrap">
-                            <div class="feed-back__title">
-                                Feed-Back
-                            </div>
-                            <div class="feed-back__evaluation">
-                                <ul class="evaluation-score">
-                                    <li class="evaluation-score__item"><button class="eval-btn" data-eval="best"><span class="sr-only">good</span></button></li>
-                                    <li class="evaluation-score__item"><button class="eval-btn" data-eval="good"><span class="sr-only">best</span></button></li>
-                                    <li class="evaluation-score__item"><button class="eval-btn" data-eval="soso"><span class="sr-only">soso</span></button></li>
-                                    <li class="evaluation-score__item"><button class="eval-btn" data-eval="bad"><span class="sr-only">bad</span></button></li>
-                                    <li class="evaluation-score__item"><button class="eval-btn" data-eval="worst"><span class="sr-only">worst</span></button></li>
-                                </ul>
-                                <span class="feed-back-tip">
-                                </span>
-                                <textarea class="textarea" placeholder="피드백을 남겨주세요!"></textarea>
-                            </div>
-                            <div class="feed-back__btn">
-                                <button type="button" class="button submit-btn">
-                                    <span class="sr-only">Submit</span>
-                                </button>
-                                <button type="button" class="button cancle-btn">
-                                    <span class="sr-only">Cancle</span>
-                                </button>
-                            </div>
+            <div class="feed-back">
+                <button type="button" class="feed-back__btn">
+                </button>
+                <div class="feed-back__modal">
+                    <div class="modal-wrap">
+                        <div class="feed-back__title">
+                            Feed-Back
+                        </div>
+                        <div class="feed-back__evaluation">
+                            <ul class="evaluation-score">
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="best"><span class="sr-only">good</span></button></li>
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="good"><span class="sr-only">best</span></button></li>
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="soso"><span class="sr-only">soso</span></button></li>
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="bad"><span class="sr-only">bad</span></button></li>
+                                <li class="evaluation-score__item"><button class="eval-btn" data-eval="worst"><span class="sr-only">worst</span></button></li>
+                            </ul>
+                            <span class="feed-back-tip">
+                            </span>
+                            <textarea class="textarea" placeholder="피드백을 남겨주세요!"></textarea>
+                        </div>
+                        <div class="button-wrap">
+                            <button type="button" class="submit-btn">
+                                <span class="sr-only">Submit</span>
+                            </button>
+                            <button type="button" class="cancle-btn">
+                                <span class="sr-only">Cancle</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-           
+            </div>
         </footer>
     </section>
 </body>
