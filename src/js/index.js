@@ -383,7 +383,7 @@
             }
             
         })
-        memoStyleCycle();
+        memoStyleCycle(li);
         sceneInfo[1].objs.memoContainer.appendChild(li);
         const toDoObj = {
             id: newId,
@@ -392,12 +392,12 @@
             timeStamp: new Date().getDate(),
         }
         toDos.push(toDoObj);
-        saveToDos();
+        saveToDos();   
+    }
 
-        function memoStyleCycle() {
-            const randomNum = Math.floor(Math.random() * 11 + 1);
-            li.style.backgroundImage = `url(./src/assets/sticker/memo_${randomNum}.png)`;
-        }
+    function memoStyleCycle(element) {
+        const randomNum = Math.floor(Math.random() * 11 + 1);
+        element.style.backgroundImage = `url(./src/assets/sticker/memo_${randomNum}.png)`;
     }
 
     function todoSubmit(){
@@ -452,9 +452,15 @@
     sceneInfo[2].objs.modalOpenBtn.addEventListener('click', feedModalOpen);
     sceneInfo[2].objs.feedModal.addEventListener('click', feedModalClickHandler);
 
+    function checkFeedback() {
+        if(sceneInfo[0].values.userInfo.feed)
+            sceneInfo[2].objs.modalOpenBtn.classList.add('complete');
+    }
+
     function feedModalOpen() {
-        if(!sceneInfo[0].values.userInfo.feed)
+        if(!sceneInfo[0].values.userInfo.feed){
             sceneInfo[2].objs.feedModal.classList.toggle('show');
+        }
     }
     function feedModalClickHandler(event) {
         const colorArr = sceneInfo[2].values.color;
@@ -503,6 +509,7 @@
                 return;
             }
             sendFeedback();
+            sceneInfo[2].objs.modalOpenBtn.classList.add('complete');
             
         }
         if(target.classList.contains('cancle-btn')) {
@@ -575,6 +582,12 @@
         }
     });
 
+    window.addEventListener('resize', () => {
+        if (matchMedia("screen and (min-width: 768px)").matches) {
+
+        }
+    })
+
     window.addEventListener('DOMContentLoaded', () => {
         const loadedUserInfo = localStorage.getItem(USER_LS);
         getCurrentTime();      
@@ -587,6 +600,7 @@
             sceneInfo[0].values.userInfo = parseUserInfo;
             greeting();
             wiseSaying();
+            checkFeedback();
             if(!parseUserInfo.age){
                 ageQuestionPage();
                 return;
