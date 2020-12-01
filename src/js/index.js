@@ -1,3 +1,4 @@
+
 'use strict';
 
 // import {question} from "./question.js"
@@ -60,7 +61,8 @@
     let toDos = [];
     const sceneInfo = [{
         objs: {
-            container: document.querySelector('.question'),
+            container: document.querySelector('#container'),
+            questionPage: document.querySelector('.question'),
             content: document.querySelector('.question-content'),
             label: document.querySelector('.label--question'),
             inputQuestion: document.querySelector('#input--question'),
@@ -140,7 +142,7 @@
         sceneInfo[0].objs.content.style.opacity = 1;
     }
     function mainPage() {
-        document.querySelector('body').classList.remove('before-question');
+        sceneInfo[0].objs.container.classList.remove('before-question');
         wiseSaying();
     }
 
@@ -253,10 +255,10 @@
 
     /*Todo */
     function todoClickHandler() {
-        document.querySelector('body').classList.add('todoPage');
+        sceneInfo[0].objs.container.classList.add('todoPage');
     }
     function backClickHadnelr() {
-        document.querySelector('body').classList.remove('todoPage');
+        sceneInfo[0].objs.container.classList.remove('todoPage');
     }
 
     function todoToggleClickHandler(event) {
@@ -577,9 +579,9 @@
         sceneInfo[0].objs.inputQuestion.value = "";
     });
 
-    sceneInfo[0].objs.container.addEventListener('transitionend', (e) => {
+    sceneInfo[0].objs.questionPage.addEventListener('transitionend', (e) => {
         if(sceneInfo[0].values.userInfo.age) 
-        document.body.removeChild(e.currentTarget);
+        sceneInfo[0].objs.container.removeChild(e.currentTarget);
     });
 
     sceneInfo[1].objs.inputTodo.addEventListener('keydown', function(event) {
@@ -596,7 +598,7 @@
     sceneInfo[1].objs.todoBtn.addEventListener('click', todoClickHandler);
     sceneInfo[1].objs.backBtn.addEventListener('click', backClickHadnelr);
     window.addEventListener('resize', () => {
-        document.body.style.height = '100vh';
+        sceneInfo[0].objs.container.style.height = window.innerHeight;
     })
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -616,8 +618,8 @@
                 ageQuestionPage();
                 return;
             }
-            document.body.removeChild(sceneInfo[0].objs.container);
-            document.querySelector('body').classList.remove('before-question'); 
+            sceneInfo[0].objs.container.removeChild(sceneInfo[0].objs.questionPage);
+            sceneInfo[0].objs.container.classList.remove('before-question'); 
         }
         
     })
