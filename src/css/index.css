@@ -84,7 +84,7 @@
   flex-direction: column;
   align-items: center;
   color: var(--color-white);
-  transform: translateY(20%);
+  transform: translateY(8%);
   opacity: 1;
   transition: opacity 1s ease-in-out;
 }
