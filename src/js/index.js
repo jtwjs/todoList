@@ -588,7 +588,7 @@
         }
     });
     sceneInfo[1].objs.inputTodo.addEventListener('blur', function(){
-        if (matchMedia("screen and (min-width: 768px)").matches) {
+        if(window.matchMedia("screen and (max-width: 768px)").matches){
             todoSubmit.call(this);
         }
     })
@@ -596,9 +596,7 @@
     sceneInfo[1].objs.todoBtn.addEventListener('click', todoClickHandler);
     sceneInfo[1].objs.backBtn.addEventListener('click', backClickHadnelr);
     window.addEventListener('resize', () => {
-        if (matchMedia("screen and (min-width: 768px)").matches) {
-
-        }
+        
     })
 
     window.addEventListener('DOMContentLoaded', () => {
