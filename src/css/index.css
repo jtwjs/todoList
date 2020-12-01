@@ -295,7 +295,7 @@ body.todoPage {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 20px;
+  padding: 1em;
   font-family: "Hi Melody", cursive;
   z-index: 2;
 }
@@ -444,7 +444,7 @@ body.todoPage {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0.6em;
+  padding: 1em;
 }
 
 .footer-bottom {
@@ -512,8 +512,8 @@ body.todoPage {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 300px;
-  height: 300px;
+  width: 19rem;
+  height: 19rem;
   opacity: 0;
   visibility: hidden;
   z-index: 999;
@@ -528,7 +528,7 @@ body.todoPage {
   width: 100%;
   height: 100%;
   border-radius: 30px;
-  padding: 10px 20px;
+  padding: 0.9em 1.2em;
   background-color: var(--color-navy);
 }
 
@@ -543,7 +543,6 @@ body.todoPage {
 }
 
 .feed-back__title {
-  margin-bottom: 10px;
   font-size: var(--font-semi-medium);
   font-weight: var(--weight-bold);
   transition: color 0.3s linear;
@@ -553,19 +552,18 @@ body.todoPage {
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 0.6em;
 }
 
 .evaluation-score {
   display: flex;
-  height: 80px;
-  margin-bottom: 5px;
-  padding: 0 23px;
+  height: 5rem;
+  padding: 0 1.5em;
 }
 
 .evaluation-score__item {
   width: 45px;
-  padding: 14px 0;
+  padding: 0.8em 0;
 }
 
 .feed-back-tip {
@@ -652,8 +650,16 @@ body.todoPage {
     width: 80%;
   }
 
+  .todo-list {
+    padding: 0.5em;
+  }
+
   .todo-main {
     margin-top: 0;
+  }
+
+  #header {
+    padding: 0.5em;
   }
 
   .greeting {
@@ -671,6 +677,10 @@ body.todoPage {
 
   .todo-tip {
     font-size: var(--font-semi-medium);
+  }
+
+  #footer {
+    padding: 0.5em;
   }
 }
 
