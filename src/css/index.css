@@ -304,6 +304,7 @@ body.todoPage {
 }
 
 .todo-btn {
+  padding: 0;
   font-size: var(--font-semi-medium);
   font-weight: var(--weight-bold);
   cursor: pointer;
@@ -562,7 +563,7 @@ body.todoPage {
 }
 
 .evaluation-score__item {
-  width: 45px;
+  width: 3rem;
   padding: 0.8em 0;
 }
 
@@ -584,24 +585,30 @@ body.todoPage {
   cursor: pointer;
 }
 
+.eval-btn {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .eval-btn[data-eval="best"] {
-  background: center / cover no-repeat url(../assets/feed-back/evaluation_best.png);
+  background-image: url(../assets/feed-back/evaluation_best.png);
 }
 
 .eval-btn[data-eval="good"] {
-  background: center / cover no-repeat url(../assets/feed-back/evaluation_good.png);
+  background-image: url(../assets/feed-back/evaluation_good.png);
 }
 
 .eval-btn[data-eval="soso"] {
-  background: center / cover no-repeat url(../assets/feed-back/evaluation_soso.png);
+  background-image: url(../assets/feed-back/evaluation_soso.png);
 }
 
 .eval-btn[data-eval="bad"] {
-  background: center / cover no-repeat url(../assets/feed-back/evaluation_bad.png);
+  background-image: url(../assets/feed-back/evaluation_bad.png);
 }
 
 .eval-btn[data-eval="worst"] {
-  background: center / cover no-repeat url(../assets/feed-back/evaluation_worst.png);
+  background-image: url(../assets/feed-back/evaluation_worst.png);
 }
 
 .textarea {
@@ -681,6 +688,14 @@ body.todoPage {
 
   #footer {
     padding: 0.5em;
+  }
+
+  .eval-btn {
+    background-size: contain;
+  }
+
+  .evaluation-score__item {
+    padding: 0;
   }
 }
 
