@@ -596,7 +596,7 @@
     sceneInfo[1].objs.todoBtn.addEventListener('click', todoClickHandler);
     sceneInfo[1].objs.backBtn.addEventListener('click', backClickHadnelr);
     window.addEventListener('resize', () => {
-        
+        document.body.style.height = '100vh';
     })
 
     window.addEventListener('DOMContentLoaded', () => {
