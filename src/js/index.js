@@ -110,6 +110,12 @@
             }
         }];
 
+    function setUserInfo() {
+        const currentUser = localStorage.getItem(USER_LS);
+        if(currentUser !== null)
+            sceneInfo[0].values.userInfo = JSON.parse(currentUser);
+    }
+
     /*Question */
     function registerName(name) {
          sceneInfo[0].values.userInfo.name = name;
@@ -158,6 +164,7 @@
                 else {
                     sceneInfo[0].objs.tip.classList.add('active');
                 }
+                this.value = '';
                 break;
             case "age": 
                 if (!/[^0-9]/g.test(this.value) && this.value > 0 && this.value < 100) {
@@ -169,8 +176,14 @@
                     this.nextElementSibling.classList.add('active');
                     this.value = '';
                 }
+                this.value = '';
                 break;
         }        
+    }
+
+    function todoPage() {
+        sceneInfo[0].objs.container.removeChild(sceneInfo[0].objs.questionPage);
+    sceneInfo[0].objs.container.classList.remove('before-question'); 
     }
 
     /*Weather */
@@ -565,18 +578,19 @@
         });
     }
 
-    function setUserInfo() {
-        const currentUser = localStorage.getItem(USER_LS);
-        if(currentUser !== null)
-            sceneInfo[0].values.userInfo = JSON.parse(currentUser);
-    }
-
+    /*event listener */
     sceneInfo[0].objs.inputQuestion.addEventListener('keydown', function(event){
         if(event.keyCode === 13) {
             questionHandler.call(this);
-            sceneInfo[0].objs.inputQuestion.value = "";
+            
         }
     });
+
+    sceneInfo[0].objs.inputQuestion.addEventListener('blur', function(){
+        if(window.matchMedia("screen and (max-width: 768px)").matches && this.value){
+            questionHandler.call(this);
+    }
+});
     sceneInfo[0].objs.continueBtn.addEventListener('click', function() {
         const target = sceneInfo[0].objs.inputQuestion;
         questionHandler.call(target);
@@ -622,8 +636,8 @@
                 ageQuestionPage();
                 return;
             }
-            sceneInfo[0].objs.container.removeChild(sceneInfo[0].objs.questionPage);
-            sceneInfo[0].objs.container.classList.remove('before-question'); 
+            todoPage();
+            
         }
         
     })
