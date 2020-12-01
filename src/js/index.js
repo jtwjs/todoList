@@ -271,6 +271,10 @@
         }   
     }
 
+    function hideTodoToggle() {
+        document.querySelector('.todo-toggle').classList.remove('show');
+    }
+
     function modifyToDo(target) {
         const li = target.parentNode.parentNode;
             if(li.querySelector('input')) {
@@ -302,7 +306,7 @@
         })
         li.appendChild(input);
         li.querySelector('input').focus();
-        
+        hideTodoToggle();
     }
 
     function clearToDo(target) {
@@ -320,6 +324,7 @@
             }
         });
         saveToDos();
+        hideTodoToggle();
 
         function unclearToDo(element) {
             toDos.forEach(x => {
