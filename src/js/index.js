@@ -137,7 +137,6 @@
         const userName = sceneInfo[0].values.userInfo.name;
         sceneInfo[0].objs.label.innerText = `How old are you, ${userName}?`;
         sceneInfo[0].objs.inputQuestion.dataset.question = 'age';
-        sceneInfo[0].objs.inputQuestion.style.width = `${sceneInfo[0].objs.label.offsetWidth}px`;
         sceneInfo[0].objs.tip.innerText = `Sorry, doesn't seem to be a valid age. Please try again.`;
         sceneInfo[0].objs.content.style.opacity = 1;
     }
@@ -152,12 +151,12 @@
             case "name": 
                 if(this.value){
                     registerName(this.value);
-                    this.nextElementSibling.classList.remove('active');
+                    sceneInfo[0].objs.tip.classList.remove('active');
                     nextPage();
                     greeting();
                     }
                 else {
-                    this.nextElementSibling.classList.add('active');
+                    sceneInfo[0].objs.tip.classList.add('active');
                 }
                 break;
             case "age": 
@@ -590,7 +589,7 @@
         }
     });
     sceneInfo[1].objs.inputTodo.addEventListener('blur', function(){
-        if(window.matchMedia("screen and (max-width: 768px)").matches){
+        if(window.matchMedia("screen and (max-width: 768px)").matches && this.value){
             todoSubmit.call(this);
         }
     })
