@@ -36,8 +36,12 @@
   visibility: hidden;
 }
 
-#container {
+#container.before-question {
   position: fixed;
+}
+
+#container {
+  position: relative;
   width: 100%;
   max-height: 100vh;
   min-height: 100vh;
@@ -46,10 +50,6 @@
   color: var(--color-white);
   background: center / cover no-repeat url(../assets/todo_bg.jpg);
   overflow: hidden;
-}
-
-#container.todoPage {
-  overflow: visible;
 }
 
 @keyframes vibration {
