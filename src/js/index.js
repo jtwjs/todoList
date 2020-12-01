@@ -587,7 +587,7 @@
             todoSubmit.call(this);
         }
     });
-    sceneInfo[1].objs.inputTodo.addEventListener('focusout', function(){
+    sceneInfo[1].objs.inputTodo.addEventListener('blur', function(){
         if (matchMedia("screen and (min-width: 768px)").matches) {
             todoSubmit.call(this);
         }
