@@ -659,6 +659,7 @@ body.todoPage {
 
   .todo-list {
     padding: 0.5em;
+    padding-bottom: 3rem;
   }
 
   .todo-main {
