@@ -25,19 +25,6 @@
   box-sizing: border-box;
 }
 
-body {
-  width: 100%;
-  max-height: 100vh;
-  min-height: 100vh;
-  height: calc(100%);
-  font-family: "Jaldi", sans-serif;
-  background: center / cover no-repeat url(../assets/todo_bg.jpg);
-  overflow: hidden;
-}
-
-body.todoPage {
-  overflow: visible;
-}
 .sr-only {
   position: absolute;
   top: -9999px;
@@ -47,6 +34,21 @@ body.todoPage {
   height: 1px;
   overflow: hidden;
   visibility: hidden;
+}
+
+#container {
+  width: 100%;
+  max-height: 100vh;
+  min-height: 100vh;
+  height: calc(100%);
+  font-family: "Jaldi", sans-serif;
+  color: var(--color-white);
+  background: center / cover no-repeat url(../assets/todo_bg.jpg);
+  overflow: hidden;
+}
+
+#container.todoPage {
+  overflow: visible;
 }
 
 @keyframes vibration {
@@ -141,11 +143,11 @@ body.todoPage {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.before-question .container {
+.before-question .todo-main {
   z-index: -1;
   opacity: 0;
 }
-.container {
+.todo-main {
   color: var(--color-white);
   opacity: 1;
   visibility: visible;
@@ -154,7 +156,7 @@ body.todoPage {
   transition: opacity 0.5s ease-in-out, visibility 0s;
 }
 
-.todoPage .container {
+.todoPage .todo-main {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.5s ease-in-out, visibility 0s ease-in-out 0.5s;
