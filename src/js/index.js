@@ -118,8 +118,7 @@
     function getUserInfo() {
         const loadeduserInfo = localStorage.getItem(USER_LS);
         if(loadeduserInfo !== null) {
-            const parseUserInfo = JSON.parse(loadeduserInfo);
-            userInfo = parseUserInfo;
+            userInfo = JSON.parse(loadeduserInfo);
             greeting();
             wiseSaying();
             checkFeedback();
@@ -139,6 +138,15 @@
         localStorage.setItem(USER_LS,JSON.stringify(userInfo));
     }
 
+    function showTip(scene) {
+        const tip = scene.objs.tip;
+        tip.classList.add('show');
+    }
+    function hideTip(scene) {
+        const tip = scene.objs.tip;
+        tip.classList.remove('show');
+    }
+
     function pageSwitch(obj) {
         if(!obj.age) {
             ageQuestionPage();
@@ -147,15 +155,6 @@
         return todoPage();
     }
 
-    function showTip(scene) {
-        const tip = scene.objs.tip;
-        tip.classList.add('show');
-    }
-    function hideTip(scene) {
-        const tip = scene.objs.tip;
-        tip.classList.remove('show');
-
-    }
 
     function todoPage() {
         sceneInfo[0].objs.container.removeChild(sceneInfo[0].objs.questionPage);
@@ -263,7 +262,9 @@
         if (loadedCoords === null) {
             askForCords();
         } else {
-            const parseCoords = JSON.parse(loadedCoords);
+     
+     
+       const parseCoords = JSON.parse(loadedCoords);
             getWeather(parseCoords.latitude, parseCoords.longitude);
         }
     }
