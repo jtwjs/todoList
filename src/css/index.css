@@ -129,7 +129,7 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.question-tip.active {
+.question-tip.show {
   opacity: 1;
 }
 
@@ -445,7 +445,7 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.todo-tip.active {
+.todo-tip.show {
   opacity: 1;
 }
 
@@ -586,7 +586,7 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.feed-back-tip.active {
+.feed-back-tip.show {
   opacity: 1;
 }
 
