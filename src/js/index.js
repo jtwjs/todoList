@@ -147,6 +147,16 @@
         return todoPage();
     }
 
+    function showTip(scene) {
+        const tip = scene.objs.tip;
+        tip.classList.add('show');
+    }
+    function hideTip(scene) {
+        const tip = scene.objs.tip;
+        tip.classList.remove('show');
+
+    }
+
     function todoPage() {
         sceneInfo[0].objs.container.removeChild(sceneInfo[0].objs.questionPage);
         sceneInfo[0].objs.container.classList.remove('before-question'); 
@@ -155,7 +165,7 @@
     function nextPage() {
         sceneInfo[0].objs.content.style.transition = 'opacity .5s ease';
         sceneInfo[0].objs.content.style.opacity = 0;
-        sceneInfo[0].objs.tip.classList.remove('active');
+        hideTip(sceneInfo[0]);
         if(userInfo.age){
             sceneInfo[0].objs.content.addEventListener('transitionend',mainPage);
         }else {
@@ -183,7 +193,7 @@
                     greeting();
                     }
                 else {
-                    sceneInfo[0].objs.tip.classList.add('active');
+                    showTip(sceneInfo[0]);
                 }
                 this.value = '';
                 break;
@@ -193,7 +203,7 @@
                     nextPage();       
                 } 
                 else {
-                    sceneInfo[0].objs.tip.classList.add('active');
+                    showTip(sceneInfo[0]);
                 }
                 this.value = '';
                 break;
@@ -447,12 +457,12 @@
     function todoSubmit(){
         const value = this.value;
         if(toDos.length >= 40){
-            sceneInfo[1].objs.tip.classList.add('active');
+            showTip(sceneInfo[1]);
             this.value = '';
             return;
         }
         paintToDo(value);
-        sceneInfo[1].objs.tip.classList.remove('active');
+        hideTip(sceneInfo[1]);
         this.value = '';
     }
     
@@ -549,10 +559,10 @@
         }else {
             sceneInfo[2].objs.tip.innerText = `↓ Please leave your feedback.`;
         }
-        sceneInfo[2].objs.tip.classList.add('active');
+        showTip(sceneInfo[2]);
         sceneInfo[2].objs.content.classList.add('error');
         sceneInfo[2].objs.content.addEventListener('animationend', () => {
-            sceneInfo[2].objs.content.classList.remove('error');
+        sceneInfo[2].objs.content.classList.remove('error');
         })
         return;
     }
@@ -567,7 +577,7 @@
         sceneInfo[2].objs.textarea.value = '';
         sceneInfo[2].objs.title.style.color = 'inherit';
         sceneInfo[2].objs.feedModal.classList.remove('show');
-        sceneInfo[2].objs.tip.classList.remove('active');
+        hideTip(sceneInfo[2]);
     }
     /*emailjs */
 
