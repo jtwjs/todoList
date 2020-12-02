@@ -57,7 +57,11 @@
                 "사람이 뭔가를 추구하고 있는 한 절대로 노인이 아니다.",
                 "지혜를 낳는 것은 백발(白髮)이 아니다"],
     };
-    let scene = 0;
+    let userInfo = {
+        name: '',
+        age: '',
+        feed: '',
+    };
     let toDos = [];
     const sceneInfo = [{
         objs: {
@@ -69,13 +73,6 @@
             continueBtn: document.querySelector('.continue-btn'),
             tip: document.querySelector('.question-tip'),            
         },
-        values: {
-            userInfo: {
-                name: '',
-                age: '',
-                feed: '',
-            },
-        }
     },
                     {
         objs:{
@@ -110,38 +107,63 @@
             }
         }];
 
+/*Question */
+
     function setUserInfo() {
         const currentUser = localStorage.getItem(USER_LS);
         if(currentUser !== null)
-            sceneInfo[0].values.userInfo = JSON.parse(currentUser);
+            userInfo = JSON.parse(currentUser);
     }
 
-    /*Question */
+    function getUserInfo() {
+        const loadeduserInfo = localStorage.getItem(USER_LS);
+        if(loadeduserInfo !== null) {
+            const parseUserInfo = JSON.parse(loadeduserInfo);
+            userInfo = parseUserInfo;
+            greeting();
+            wiseSaying();
+            checkFeedback();
+            pageSwitch(userInfo);
+        }
+    }
+    
     function registerName(name) {
-         sceneInfo[0].values.userInfo.name = name;
+         userInfo.name = name;
          saveUserInfo();
     }
     function registerAge(age) {
-         sceneInfo[0].values.userInfo.age = age;
+         userInfo.age = age;
          saveUserInfo();
     }
     function saveUserInfo() {
-        const userInfo = sceneInfo[0].values.userInfo;
         localStorage.setItem(USER_LS,JSON.stringify(userInfo));
+    }
+
+    function pageSwitch(obj) {
+        if(!obj.age) {
+            ageQuestionPage();
+            return;
+        }
+        return todoPage();
+    }
+
+    function todoPage() {
+        sceneInfo[0].objs.container.removeChild(sceneInfo[0].objs.questionPage);
+        sceneInfo[0].objs.container.classList.remove('before-question'); 
     }
 
     function nextPage() {
         sceneInfo[0].objs.content.style.transition = 'opacity .5s ease';
         sceneInfo[0].objs.content.style.opacity = 0;
-        if(scene === 0){
-            sceneInfo[0].objs.content.addEventListener('transitionend',ageQuestionPage);
-        }else {
+        sceneInfo[0].objs.tip.classList.remove('active');
+        if(userInfo.age){
             sceneInfo[0].objs.content.addEventListener('transitionend',mainPage);
+        }else {
+            sceneInfo[0].objs.content.addEventListener('transitionend',ageQuestionPage);
         }
     }
     function ageQuestionPage() {
-        const userName = sceneInfo[0].values.userInfo.name;
-        sceneInfo[0].objs.label.innerText = `How old are you, ${userName}?`;
+        sceneInfo[0].objs.label.innerText = `How old are you, ${userInfo.name}?`;
         sceneInfo[0].objs.inputQuestion.dataset.question = 'age';
         sceneInfo[0].objs.tip.innerText = `Sorry, doesn't seem to be a valid age. Please try again.`;
         sceneInfo[0].objs.content.style.opacity = 1;
@@ -157,7 +179,6 @@
             case "name": 
                 if(this.value){
                     registerName(this.value);
-                    sceneInfo[0].objs.tip.classList.remove('active');
                     nextPage();
                     greeting();
                     }
@@ -169,21 +190,14 @@
             case "age": 
                 if (!/[^0-9]/g.test(this.value) && this.value > 0 && this.value < 100) {
                     registerAge(this.value);
-                    scene++;           
                     nextPage();       
                 } 
                 else {
-                    this.nextElementSibling.classList.add('active');
-                    this.value = '';
+                    sceneInfo[0].objs.tip.classList.add('active');
                 }
                 this.value = '';
                 break;
         }        
-    }
-
-    function todoPage() {
-        sceneInfo[0].objs.container.removeChild(sceneInfo[0].objs.questionPage);
-    sceneInfo[0].objs.container.classList.remove('before-question'); 
     }
 
     /*Weather */
@@ -192,16 +206,28 @@
             .then(function (response) {
                 return response.json();
             })
-            .then(function (json) {
-                const icon = json.weather[0].icon;
-                const temperature = Math.round(json.main.temp);
-                const place = json.name;
-                const index = place.indexOf("-");
-                sceneInfo[1].objs.weatherIcon.style.backgroundImage = `url(http://openweathermap.org/img/wn/${icon}@2x.png)`;
-                sceneInfo[1].objs.temperature.innerText = temperature;
-                sceneInfo[1].objs.local.innerText = place.slice(0,index);
+            .then(function (json){
+                applyWeather(json);        
             });       
     }
+
+    function applyWeather(json) {
+        applyTemperature(json.main.temp);
+        applyLocal(json.name);
+        applyWeatherIcon(json.weather[0].icon);
+
+        function applyWeatherIcon(icon) {
+            sceneInfo[1].objs.weatherIcon.style.backgroundImage = `url(http://openweathermap.org/img/wn/${icon}@2x.png)`;
+        }
+        function applyTemperature(temperature) {
+            sceneInfo[1].objs.temperature.innerText = Math.round(temperature);
+        }
+        function applyLocal(place) {
+            const index = place.indexOf("-");
+            sceneInfo[1].objs.local.innerText = place.slice(0,index);
+        }
+    }
+    
 
     function saveCoords(coordsObj) {
         localStorage.setItem(COORDS, JSON.stringify(coordsObj));
@@ -243,26 +269,19 @@
     /*Greeting */
     function greeting() {
         const hour = new Date().getHours();
-        let byTimeStr = '';
+        let byTimerGreeting = '';
         if(hour <= 12) {
-            byTimeStr = 'morning';
-            greetingByTime(byTimeStr);
+            byTimerGreeting = 'morning';
         } else if(hour < 13) {
-            byTimeStr = 'afternoon';
-            greetingByTime(byTimeStr);
+            byTimerGreeting = 'afternoon';
         } else if(hour <= 18) {
-            byTimeStr = 'evening';
-            greetingByTime(byTimeStr);
+            byTimerGreeting = 'evening';
         } else if(hour <= 23) {
-            byTimeStr = 'night';
-            greetingByTime(byTimeStr);
+            byTimerGreeting = 'night';
         }
 
-        function greetingByTime(str) {
-            sceneInfo[1].objs.greeting.innerText = 
-                `Good ${str}, ${sceneInfo[0].values.userInfo.name}`;
-                console.log(sceneInfo[0].values.userInfo.name)
-        }
+        sceneInfo[1].objs.greeting.innerText = 
+                `Good ${byTimerGreeting}, ${userInfo.name}`;
     }
 
     /*Todo */
@@ -295,7 +314,7 @@
                 li.classList.remove('modify');
                 li.removeChild(input);
             return;
-        }
+            }
         const span = li.querySelector('span');
         const value = span.innerText;
         const input = document.createElement('input');
@@ -450,7 +469,7 @@
     };
     /*Wise Saying */
     function wiseSaying() {
-        const age = parseInt(sceneInfo[0].values.userInfo.age);
+        const age = parseInt(userInfo.age);
         const saying =  getWiseSaying(age);
         sceneInfo[1].objs.wiseSaying.innerText = saying;
     }
@@ -478,73 +497,67 @@
     sceneInfo[2].objs.feedModal.addEventListener('click', feedModalClickHandler);
 
     function checkFeedback() {
-        if(sceneInfo[0].values.userInfo.feed)
+        if(userInfo.feed)
             sceneInfo[2].objs.modalOpenBtn.classList.add('complete');
     }
 
     function feedModalOpen() {
-        if(!sceneInfo[0].values.userInfo.feed){
+        if(!userInfo.feed){
             sceneInfo[2].objs.feedModal.classList.toggle('show');
         }
     }
-    function feedModalClickHandler(event) {
-        const colorArr = sceneInfo[2].values.color;
-        let target = event.target;
-        console.log(target);
 
+    function setGrade(grade) {
+        const colorArr = sceneInfo[2].values.color;
+        const evaluation = {
+            best: 0,
+            good: 1,
+            soso: 2,
+            bad: 3,
+            worst: 4,
+        };
+        sceneInfo[2].objs.title.style.color = `${colorArr[evaluation[grade]]}`;
+        sceneInfo[2].values.feedBack.grade = grade;
+    }
+
+    function feedModalClickHandler(event) {
+        let target = event.target;
         if(target.classList.contains('eval-btn')) {
-            switch(target.dataset.eval) {
-                case 'best':
-                    sceneInfo[2].objs.title.style.color = `${colorArr[0]}`;
-                    setGrade(target.dataset.eval);
-                    break;
-                case 'good':
-                    sceneInfo[2].objs.title.style.color = `${colorArr[1]}`;
-                    setGrade(target.dataset.eval);
-                    break;
-                case 'soso':
-                    sceneInfo[2].objs.title.style.color = `${colorArr[2]}`;
-                    setGrade(target.dataset.eval);
-                    break;
-                case 'bad':
-                    sceneInfo[2].objs.title.style.color = `${colorArr[3]}`;
-                    setGrade(target.dataset.eval);
-                    break;
-                case 'worst':
-                    sceneInfo[2].objs.title.style.color = `${colorArr[4]}`;
-                    setGrade(target.dataset.eval);
-                    break;
-            }
+            setGrade(target.dataset.eval);
         }
         if(target.classList.contains('submit-btn')) {
             setText(sceneInfo[2].objs.textarea.value);
-            if(!sceneInfo[2].values.feedBack.text || !sceneInfo[2].values.feedBack.grade){
-                if(!sceneInfo[2].values.feedBack.grade) {
-                    sceneInfo[2].objs.tip.innerText = `↑ Please select an evaluation grade.`;
-                    sceneInfo[2].objs.tip.classList.add('active');
-                }else if(!sceneInfo[2].values.feedBack.text) {
-                    sceneInfo[2].objs.tip.innerText = `↓ Please leave your feedback.`;
-                    sceneInfo[2].objs.tip.classList.add('active');
-
-                }
-                sceneInfo[2].objs.content.classList.add('error');
-                sceneInfo[2].objs.content.addEventListener('animationend', () => {
-                    sceneInfo[2].objs.content.classList.remove('error');
-                })
-                return;
+            if(isNotEligibleFeedback()){
+                feedbackSubmitError(sceneInfo[2].values.feedBack);
+            }else{
+                sendFeedback();
             }
-            sendFeedback();
-            sceneInfo[2].objs.modalOpenBtn.classList.add('complete');
-            
         }
         if(target.classList.contains('cancle-btn')) {
             cancleFeedback();
         }
     }
-
-    function setGrade(grade) {
-        sceneInfo[2].values.feedBack.grade = grade;
+    function isNotEligibleFeedback() {
+        const isText = Boolean(sceneInfo[2].values.feedBack.text);
+        const isGrade = Boolean(sceneInfo[2].values.feedBack.grade);
+        return (!isText || !isGrade);
     }
+
+    function feedbackSubmitError(obj) {
+        if(!obj.grade){
+            sceneInfo[2].objs.tip.innerText = `↑ Please select an evaluation grade.`;
+        }else {
+            sceneInfo[2].objs.tip.innerText = `↓ Please leave your feedback.`;
+        }
+        sceneInfo[2].objs.tip.classList.add('active');
+        sceneInfo[2].objs.content.classList.add('error');
+        sceneInfo[2].objs.content.addEventListener('animationend', () => {
+            sceneInfo[2].objs.content.classList.remove('error');
+        })
+        return;
+    }
+
+    
     function setText(text) {
         sceneInfo[2].values.feedBack.text = text;
     }
@@ -563,14 +576,15 @@
         const text = sceneInfo[2].values.feedBack.text;
         const obj = {
             to_name: 'Woong',
-            from_name: sceneInfo[0].values.userInfo.name,
+            from_name: userInfo.name,
             message: `grade: ${grade}, message: ${text}`,
         };
 
     emailjs.send('service_ggvpk9f','template_4liun4k', obj)
         .then(function(response) {
             console.log('SUCCESS!', response.status, response.text);
-            sceneInfo[0].values.userInfo.feed = 'OK';
+            userInfo.feed = 'OK';
+            sceneInfo[2].objs.modalOpenBtn.classList.add('complete');
             sceneInfo[2].objs.feedModal.classList.remove('show');
             saveUserInfo();
         }, function(error) {
@@ -598,7 +612,7 @@
     });
 
     sceneInfo[0].objs.questionPage.addEventListener('transitionend', (e) => {
-        if(sceneInfo[0].values.userInfo.age) 
+        if(userInfo.age) 
         sceneInfo[0].objs.container.removeChild(e.currentTarget);
     });
 
@@ -619,27 +633,14 @@
         sceneInfo[0].objs.container.style.height = window.innerHeight;
     })
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const loadedUserInfo = localStorage.getItem(USER_LS);
+
+    window.addEventListener('DOMContentLoaded', () => {        
         getCurrentTime();      
         setInterval(getCurrentTime, 1000);
         setUserInfo();
         loadCoords();
         loadToDos();
-        if(loadedUserInfo !== null) {
-            const parseUserInfo = JSON.parse(loadedUserInfo);
-            sceneInfo[0].values.userInfo = parseUserInfo;
-            greeting();
-            wiseSaying();
-            checkFeedback();
-            if(!parseUserInfo.age){
-                ageQuestionPage();
-                return;
-            }
-            todoPage();
-            
-        }
-        
+        getUserInfo();
     })
 
 })();
