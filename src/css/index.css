@@ -664,7 +664,8 @@
   }
 
   #input--question {
-    max-width: fit-content;
+    max-width: 90%;
+    width: 100%;
     padding: 0.1em;
     font-size: var(--font-medium);
   }
@@ -715,6 +716,10 @@
 @media screen and (orientation: landscape) and (max-width: 768px) {
   .label--question {
     font-size: var(--font-medium);
+  }
+
+  #input--question {
+    max-width: fit-content;
   }
 
   .clock {
